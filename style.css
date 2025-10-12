@@ -1,16 +1,15 @@
-/* === Lyam Cyber Theme for Project Pages ===
-   Paste whole file to assets/css/style.css (or to style.css in root).
-   This CSS is made specific to override Bootstrap defaults where needed.
-*/
+/* === Lyam Cyber Theme for Project Pages === */
+/* Paste to assets/css/style.css (replace old content) */
 
-/* base */
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin:0; padding:0; }
+html,body { height:100%; }
+
 body {
-  margin: 0;
   font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
   background: radial-gradient(circle at top left, #001826 0%, #05060a 70%);
   color: #dceff2;
   line-height: 1.6;
+  -webkit-font-smoothing:antialiased;
 }
 
 /* container */
@@ -20,38 +19,32 @@ body {
   padding: 34px 20px;
 }
 
-/* navbar (if page includes a bootstrap navbar, this will style it) */
-.navbar, header {
-  background: rgba(6,12,18,0.85) !important;
-  border-bottom: 1px solid rgba(0,255,210,0.06);
+/* header / brand */
+header, .navbar {
+  background: rgba(6,12,18,0.85);
+  border-bottom: 1px solid rgba(0,255,213,0.06);
   backdrop-filter: blur(6px);
 }
 .brand, .navbar-brand {
   color: #00ffd5 !important;
   font-weight: 700;
-  letter-spacing: .2px;
+  letter-spacing: 0.2px;
   text-shadow: 0 0 8px rgba(0,255,213,0.06);
+  text-decoration: none;
 }
 
 /* headings */
-h1, .post-title {
-  color: #00ffd5;
-  text-shadow: 0 0 12px rgba(0,255,213,0.06);
-  margin-bottom: 8px;
-}
-h2 {
-  color: #9feee0;
-  margin-top: 28px;
-}
+h1.post-title, h1 { color: #00ffd5; text-shadow: 0 0 12px rgba(0,255,213,0.06); margin-bottom: 12px; }
+h2, h3 { color: #9feee0; margin-top: 22px; margin-bottom: 12px; }
 
-/* meta info */
+/* meta */
 .meta {
   color: #9ab9c3;
   font-size: 0.95rem;
   margin-bottom: 18px;
 }
 
-/* article body */
+/* article wrapper */
 .article {
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
   padding: 24px;
@@ -60,14 +53,19 @@ h2 {
   box-shadow: 0 6px 20px rgba(3,14,26,0.5);
 }
 
-/* code blocks and pre */
+/* section title small */
+.section-title { color:#bff6ea; margin-top:18px; margin-bottom:8px; }
+
+/* pre, code styling */
 pre, code {
   background: #02121a;
   color: #bceef0;
-  padding: 8px;
+  padding: 10px;
   border-radius: 6px;
   overflow-x: auto;
   border: 1px solid rgba(0,255,213,0.04);
+  font-family: Menlo, Monaco, "Courier New", monospace;
+  font-size: 0.95rem;
 }
 
 /* tables */
@@ -80,11 +78,9 @@ table th, table td {
   padding: 10px 12px;
   border: 1px solid rgba(255,255,255,0.04);
 }
-table thead {
-  background: rgba(0,255,213,0.03);
-}
+table thead { background: rgba(0,255,213,0.03); color: #cfffeb; }
 
-/* buttons / links */
+/* buttons / return link */
 .btn-lyam {
   display:inline-block;
   background: linear-gradient(90deg,#00ffd5,#00c6b0);
@@ -94,8 +90,20 @@ table thead {
   text-decoration:none;
   font-weight:600;
   border: none;
+  margin-top: 14px;
 }
-.btn-lyam:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,255,213,0.12); }
+.btn-lyam:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0,255,213,0.12);
+}
+
+/* recommendation box style */
+.recommend {
+  background: linear-gradient(180deg, #06141a 0%, #031016 100%);
+  border-left: 4px solid rgba(0,255,213,0.12);
+  padding: 16px;
+  border-radius: 8px;
+}
 
 /* footer */
 footer {
@@ -107,11 +115,9 @@ footer {
   background: transparent;
 }
 
-/* responsive tweaks */
+/* responsive */
 @media (max-width: 768px) {
   .container { padding: 20px; }
-  h1 { font-size: 1.6rem; }
+  h1.post-title { font-size: 1.4rem; }
+  pre, code { font-size: 0.85rem; }
 }
-
-/* ensure project page layout spacing */
-.article .section-title { margin-top: 22px; margin-bottom: 10px; color:#bff6ea; }
