@@ -1,0 +1,14 @@
+html { scroll-behavior: smooth; }
+body { margin:0; font-family: 'Inter', sans-serif; background:#0b0f1a; color:#e6eef6; }
+header { position:fixed; top:0; left:0; right:0; background:#0e1322cc; backdrop-filter:blur(6px); padding:1rem 2rem; z-index:100; display:flex; justify-content:space-between; align-items:center; }
+header a { color:#00ff99; text-decoration:none; margin:0 1rem; }
+header a:hover { color:white; }
+section { padding:100px 20px; max-width:1000px; margin:auto; }
+h1,h2 { color:#00ff99; }
+.hero { text-align:center; padding-top:120px; }
+.projects, .about, .contact, .blog { margin-top:60px; }
+footer { text-align:center; padding:2rem; color:#999; border-top:1px solid #111; }
+.card { background:#111829; border-radius:10px; padding:1rem; margin:1rem 0; transition:0.3s; }
+.card:hover { background:#18243d; }
+a.post-link { color:#00ff99; text-decoration:none; }
+a.post-link:hover { text-decoration:underline; }

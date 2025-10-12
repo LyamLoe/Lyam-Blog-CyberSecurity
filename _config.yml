@@ -1,0 +1,8 @@
+title: "Lyam"
+description: "CyberSecurity Research and Tutorials"
+baseurl: "/Lyam-Blog-CyberSecurity"
+url: "https://wloe27.github.io"
+theme: minima
+author:
+  name: "Lyam"
+markdown: kramdown
