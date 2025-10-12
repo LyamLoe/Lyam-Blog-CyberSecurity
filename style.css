@@ -1,118 +1,117 @@
-/* === NEON CYBER THEME === */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* === Lyam Cyber Theme for Project Pages ===
+   Paste whole file to assets/css/style.css (or to style.css in root).
+   This CSS is made specific to override Bootstrap defaults where needed.
+*/
 
+/* base */
+* { box-sizing: border-box; }
 body {
-  font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at top left, #001f3f, #000000 70%);
-  color: #e0f7ff;
-  overflow-x: hidden;
+  margin: 0;
+  font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+  background: radial-gradient(circle at top left, #001826 0%, #05060a 70%);
+  color: #dceff2;
+  line-height: 1.6;
 }
 
-/* Navbar */
-.navbar {
-  background-color: rgba(0, 10, 20, 0.95) !important;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+/* container */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 34px 20px;
 }
-.navbar-brand {
-  color: #00ffff !important;
+
+/* navbar (if page includes a bootstrap navbar, this will style it) */
+.navbar, header {
+  background: rgba(6,12,18,0.85) !important;
+  border-bottom: 1px solid rgba(0,255,210,0.06);
+  backdrop-filter: blur(6px);
+}
+.brand, .navbar-brand {
+  color: #00ffd5 !important;
   font-weight: 700;
-  text-shadow: 0 0 8px #00ffff;
-}
-.nav-link {
-  color: #b0faff !important;
-  transition: all 0.3s;
-}
-.nav-link:hover {
-  color: #00ffff !important;
-  text-shadow: 0 0 8px #00ffff;
+  letter-spacing: .2px;
+  text-shadow: 0 0 8px rgba(0,255,213,0.06);
 }
 
-/* Hero Section */
-#home {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background: linear-gradient(180deg, #001a33, #000);
-  color: #00ffff;
+/* headings */
+h1, .post-title {
+  color: #00ffd5;
+  text-shadow: 0 0 12px rgba(0,255,213,0.06);
+  margin-bottom: 8px;
 }
-#home h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  text-shadow: 0 0 10px #00ffff;
-}
-#home p {
-  color: #a0e7ff;
-}
-.btn-outline-light {
-  border-color: #00ffff;
-  color: #00ffff;
-  transition: 0.3s;
-}
-.btn-outline-light:hover {
-  background-color: #00ffff;
-  color: #000;
+h2 {
+  color: #9feee0;
+  margin-top: 28px;
 }
 
-/* Projects */
-#projects {
-  background-color: #020c14;
-  color: #e0f7ff;
-  padding: 60px 0;
+/* meta info */
+.meta {
+  color: #9ab9c3;
+  font-size: 0.95rem;
+  margin-bottom: 18px;
 }
-#projects h2 {
-  color: #00ffff;
-  text-align: center;
-  margin-bottom: 40px;
-  text-shadow: 0 0 8px #00ffff;
-}
-.card {
-  background: rgba(0, 20, 30, 0.95);
-  border: 1px solid #00ffff;
+
+/* article body */
+.article {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+  padding: 24px;
   border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
-  color: #b0faff;
-  transition: all 0.3s;
+  border: 1px solid rgba(0,255,213,0.03);
+  box-shadow: 0 6px 20px rgba(3,14,26,0.5);
 }
-.card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
+
+/* code blocks and pre */
+pre, code {
+  background: #02121a;
+  color: #bceef0;
+  padding: 8px;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid rgba(0,255,213,0.04);
 }
-.card-title {
-  color: #00ffff;
+
+/* tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
 }
-.btn-dark {
-  background-color: #00ffff;
-  color: #000;
+table th, table td {
+  padding: 10px 12px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+table thead {
+  background: rgba(0,255,213,0.03);
+}
+
+/* buttons / links */
+.btn-lyam {
+  display:inline-block;
+  background: linear-gradient(90deg,#00ffd5,#00c6b0);
+  color:#001e24;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration:none;
+  font-weight:600;
   border: none;
 }
-.btn-dark:hover {
-  background-color: #00c0c0;
-}
+.btn-lyam:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,255,213,0.12); }
 
-/* About & Contact */
-#about, #contact {
-  background: linear-gradient(180deg, #000, #001f3f);
-  color: #e0f7ff;
-  text-align: center;
-  padding: 60px 0;
-}
-#about h2, #contact h2 {
-  color: #00ffff;
-  text-shadow: 0 0 10px #00ffff;
-}
-
-/* Footer */
+/* footer */
 footer {
-  background: #000;
-  color: #00ffff;
-  text-align: center;
-  padding: 10px 0;
-  border-top: 1px solid #00ffff;
-  text-shadow: 0 0 8px #00ffff;
+  margin-top: 42px;
+  padding: 26px 0;
+  text-align:center;
+  color:#9fbfc7;
+  border-top: 1px solid rgba(0,255,213,0.03);
+  background: transparent;
 }
+
+/* responsive tweaks */
+@media (max-width: 768px) {
+  .container { padding: 20px; }
+  h1 { font-size: 1.6rem; }
+}
+
+/* ensure project page layout spacing */
+.article .section-title { margin-top: 22px; margin-bottom: 10px; color:#bff6ea; }
