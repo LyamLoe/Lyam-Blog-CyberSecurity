@@ -1,0 +1,10 @@
+
+body {
+  scroll-behavior: smooth;
+}
+section {
+  padding-top: 80px;
+}
+.card-title {
+  font-weight: bold;
+}
