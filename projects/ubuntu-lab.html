@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ubuntu Server Cybersecurity Lab Setup</title>
+  <title>Ubuntu Lab Environment Setup</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <style>
@@ -54,113 +54,194 @@
 <body>
 <div class="container">
 
-  <h1 class="text-center mt-5 mb-4">
-    Ubuntu Server 22.04 Cybersecurity Lab
+  <h1 class="text-center mt-5 mb-3">
+    Setup Ubuntu Lab Environment
   </h1>
-  <p class="text-center">
-    Experimenter: Lubellion<br>
+  <p class="text-center mb-5">
+    <strong>Educational & Public Documentation</strong><br>
+    Experimenter: Lyam<br>
+    OS: Ubuntu Server 22.04 LTS
     Environment: VMware / VirtualBox / Bare Metal
   </p>
 
-  <!-- 1. Introduction -->
+  <!-- 1. Pendahuluan -->
   <div class="section">
-    <h2>1. Introduction</h2>
+    <h2>1. Pendahuluan</h2>
     <p>
-      Ubuntu Server 22.04 LTS digunakan sebagai platform utama untuk
-      cybersecurity lab, berfokus pada honeypot dan SIEM deployment.
+      Ubuntu Lab Environment merupakan fondasi utama dari seluruh arsitektur
+      keamanan pada lab ini. Semua komponen lanjutan seperti
+      <strong>Cowrie Honeypot</strong> dan <strong>Wazuh SIEM</strong>
+      sangat bergantung pada kestabilan dan keamanan sistem operasi dasar.
     </p>
-
-    <table>
-      <tr><th>Component</th><th>Minimum</th><th>Recommended</th></tr>
-      <tr><td>CPU</td><td>2 Cores</td><td>4 Cores</td></tr>
-      <tr><td>RAM</td><td>2 GB</td><td>4+ GB</td></tr>
-      <tr><td>Storage</td><td>20 GB</td><td>50+ GB</td></tr>
-      <tr><td>Network</td><td>1 NIC</td><td>2 NIC</td></tr>
-    </table>
+    <p>
+      Dokumentasi ini ditujukan untuk edukasi publik. Setiap langkah menjelaskan
+      <em>apa yang dilakukan</em>, <em>mengapa dilakukan</em>, dan
+      <em>apa dampaknya jika diabaikan</em>.
+    </p>
+    <ul>
+      <li>Menyediakan server yang stabil dan aman</li>
+      <li>Menjadi host terisolasi untuk honeypot dan monitoring</li>
+      <li>Menerapkan best practice deployment Linux server</li>
+    </ul>
   </div>
 
   <!-- 2. Download ISO -->
   <div class="section">
-    <h2>2. Download Ubuntu Server ISO</h2>
+    <h2>2. Download ISO Ubuntu Server</h2>
+    <p>
+      Ubuntu Server dipilih karena ringan, minim attack surface,
+      dan digunakan luas di industri.
+    </p>
+    <ul>
+      <li>Versi: Ubuntu Server 22.04 LTS</li>
+      <li>Support hingga 2027</li>
+      <li>Stabil untuk production dan lab</li>
+    </ul>
     <pre>
 wget https://releases.ubuntu.com/22.04/ubuntu-22.04.3-live-server-amd64.iso
 sha256sum ubuntu-22.04.3-live-server-amd64.iso
     </pre>
   </div>
 
-  <!-- 3. Network Configuration -->
+  <!-- 3. Instalasi -->
   <div class="section">
-    <h2>3. Network Configuration (Static IP)</h2>
-    <pre>
-network:
-  version: 2
-  ethernets:
-    ens33:
-      addresses:
-        - 192.168.56.110/24
-      gateway4: 192.168.56.1
-      nameservers:
-        addresses:
-          - 8.8.8.8
-          - 8.8.4.4
-    </pre>
+    <h2>3. Instalasi Ubuntu Server</h2>
+    <p>Instalasi dilakukan menggunakan VirtualBox atau VMware.</p>
+    <ul>
+      <li>CPU: 2 core</li>
+      <li>RAM: 2–4 GB</li>
+      <li>Disk: 40–50 GB (dynamic)</li>
+      <li>Network: NAT + Host-only</li>
+    </ul>
+    <p><strong>OpenSSH Server wajib diaktifkan</strong> karena seluruh manajemen server dilakukan via SSH.</p>
   </div>
 
   <!-- 4. Post Installation -->
   <div class="section">
-    <h2>4. Post-Installation Setup</h2>
+    <h2>4. Post-Installation Configuration</h2>
+
+    <h3>4.1 Update Sistem</h3>
     <pre>
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y vim curl wget git htop net-tools
+    </pre>
+    <p>
+      Update sistem menutup vulnerability bawaan ISO dan
+      menyinkronkan security patches terbaru.
+    </p>
+
+    <h3>4.2 Install Tool Dasar</h3>
+    <pre>
+sudo apt install -y curl wget git vim net-tools htop unzip
+    </pre>
+  </div>
+
+  <!-- 5. Network -->
+  <div class="section">
+    <h2>5. Network Configuration untuk Lab</h2>
+    <p>
+      Lab keamanan tidak boleh bergantung pada DHCP publik.
+      Static IP menjaga konsistensi koneksi antar node.
+    </p>
+    <pre>
+network:
+  version: 2
+  ethernets:
+    enp0s8:
+      dhcp4: no
+      addresses: [192.168.56.110/24]
+      gateway4: 192.168.56.1
+      nameservers:
+        addresses: [8.8.8.8, 1.1.1.1]
+    </pre>
+  </div>
+
+  <!-- 6. Security -->
+  <div class="section">
+    <h2>6. Security Hardening Dasar</h2>
+
+    <h3>6.1 Disable Root Login</h3>
+    <pre>
+sudo vim /etc/ssh/sshd_config
+PermitRootLogin no
+    </pre>
+
+    <h3>6.2 Firewall (UFW)</h3>
+    <pre>
+sudo ufw allow OpenSSH
+sudo ufw enable
+    </pre>
+  </div>
+
+  <!-- 7. Logging -->
+  <div class="section">
+    <h2>7. Monitoring & Logging Dasar</h2>
+
+    <h3>Timezone</h3>
+    <pre>
 sudo timedatectl set-timezone Asia/Jakarta
     </pre>
+
+    <h3>System Logs</h3>
+    <pre>
+journalctl -xe
+    </pre>
+    <p><em>Tanpa logging, tidak ada forensic value.</em></p>
   </div>
 
-  <!-- 5. Firewall -->
+  <!-- 8. Snapshot -->
   <div class="section">
-    <h2>5. Firewall & Security Hardening</h2>
-    <pre>
-sudo ufw enable
-sudo ufw allow 22/tcp
-sudo ufw status verbose
-    </pre>
-
-    <pre>
-PermitRootLogin no
-MaxAuthTries 3
-ClientAliveInterval 300
-ClientAliveCountMax 2
-    </pre>
+    <h2>8. Snapshot & Backup</h2>
+    <p>
+      Snapshot VM adalah insurance policy sebelum melakukan perubahan besar
+      seperti instalasi Cowrie dan Wazuh.
+    </p>
   </div>
 
-  <!-- 6. Fail2Ban -->
+  <!-- 9. Verifikasi -->
   <div class="section">
-    <h2>6. Fail2Ban Protection</h2>
+    <h2>9. Verifikasi Setup</h2>
     <pre>
-sudo apt install fail2ban -y
-
-[sshd]
-enabled = true
-maxretry = 3
-bantime = 3600
+ip a
+ss -tlnp
+uptime
+lsb_release -a
     </pre>
   </div>
 
-  <!-- 7. Verification -->
+  <!-- 10. Checklist -->
   <div class="section">
-    <h2>7. Verification Checklist</h2>
-    <pre>
-hostnamectl
-ip addr
-systemctl status sshd
-systemctl status ufw
-df -h
-free -h
-    </pre>
+    <h2>10. Checklist</h2>
+    <table>
+      <tr><th>Item</th><th>Status</th></tr>
+      <tr><td>Ubuntu Server installed</td><td>✅</td></tr>
+      <tr><td>SSH enabled</td><td>✅</td></tr>
+      <tr><td>System updated</td><td>✅</td></tr>
+      <tr><td>Static IP configured</td><td>✅</td></tr>
+      <tr><td>Firewall enabled</td><td>✅</td></tr>
+      <tr><td>Timezone correct</td><td>✅</td></tr>
+      <tr><td>Snapshot created</td><td>✅</td></tr>
+    </table>
+  </div>
+
+  <!-- 11. Kesimpulan -->
+  <div class="section">
+    <h2>11. Kesimpulan</h2>
+    <p>
+      Ubuntu Lab Environment telah disiapkan dengan prinsip
+      <strong>security-first</strong> dan best practice server Linux.
+    </p>
+    <p>
+      Tanpa tahap ini, Cowrie dan Wazuh hanya menjadi demo,
+      bukan security lab yang sesungguhnya.
+    </p>
+    <p>
+      <strong>Status:</strong> Ready for Deployment<br>
+      <strong>Next Step:</strong> Install Cowrie Honeypot & Wazuh Agent
+    </p>
   </div>
 
   <div class="footer">
-    Ubuntu Server Cybersecurity Lab — Ready for Honeypot & SIEM Deployment
+    Open Educational Cybersecurity Lab — Ubuntu Foundation Layer
   </div>
 
 </div>
