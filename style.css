@@ -1,4 +1,4 @@
-/* === NEON CYBER THEME === */
+/* === SOFT CYBER DOCUMENTATION THEME === */
 * {
   margin: 0;
   padding: 0;
@@ -7,28 +7,26 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at top left, #001f3f, #000000 70%);
-  color: #e0f7ff;
+  background: linear-gradient(180deg, #0f172a, #020617);
+  color: #cbd5e1;
   overflow-x: hidden;
 }
 
 /* Navbar */
 .navbar {
-  background-color: rgba(0, 10, 20, 0.95) !important;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  background-color: rgba(15, 23, 42, 0.95) !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.6);
 }
 .navbar-brand {
-  color: #00ffff !important;
-  font-weight: 700;
-  text-shadow: 0 0 8px #00ffff;
+  color: #93c5fd !important;
+  font-weight: 600;
 }
 .nav-link {
-  color: #b0faff !important;
-  transition: all 0.3s;
+  color: #cbd5e1 !important;
+  transition: color 0.3s;
 }
 .nav-link:hover {
-  color: #00ffff !important;
-  text-shadow: 0 0 8px #00ffff;
+  color: #93c5fd !important;
 }
 
 /* Hero Section */
@@ -38,81 +36,79 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: linear-gradient(180deg, #001a33, #000);
-  color: #00ffff;
+  background: linear-gradient(180deg, #020617, #0f172a);
 }
 #home h1 {
   font-size: 3rem;
   font-weight: 700;
-  text-shadow: 0 0 10px #00ffff;
+  color: #e5e7eb;
 }
 #home p {
-  color: #a0e7ff;
+  color: #94a3b8;
 }
+
+/* Buttons */
 .btn-outline-light {
-  border-color: #00ffff;
-  color: #00ffff;
+  border-color: #94a3b8;
+  color: #e5e7eb;
   transition: 0.3s;
 }
 .btn-outline-light:hover {
-  background-color: #00ffff;
-  color: #000;
+  background-color: #1e293b;
+  color: #e5e7eb;
 }
 
-/* Projects */
+/* Projects Section */
 #projects {
-  background-color: #020c14;
-  color: #e0f7ff;
+  background-color: #020617;
+  color: #cbd5e1;
   padding: 60px 0;
 }
 #projects h2 {
-  color: #00ffff;
+  color: #e5e7eb;
   text-align: center;
   margin-bottom: 40px;
-  text-shadow: 0 0 8px #00ffff;
 }
 .card {
-  background: rgba(0, 20, 30, 0.95);
-  border: 1px solid #00ffff;
+  background: #0f172a;
+  border: 1px solid #1e293b;
   border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
-  color: #b0faff;
-  transition: all 0.3s;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
+  color: #cbd5e1;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.8);
 }
 .card-title {
-  color: #00ffff;
+  color: #e5e7eb;
 }
 .btn-dark {
-  background-color: #00ffff;
-  color: #000;
-  border: none;
+  background-color: #1e293b;
+  color: #e5e7eb;
+  border: 1px solid #334155;
 }
 .btn-dark:hover {
-  background-color: #00c0c0;
+  background-color: #334155;
 }
 
 /* About & Contact */
 #about, #contact {
-  background: linear-gradient(180deg, #000, #001f3f);
-  color: #e0f7ff;
+  background: linear-gradient(180deg, #020617, #0f172a);
+  color: #cbd5e1;
   text-align: center;
   padding: 60px 0;
 }
 #about h2, #contact h2 {
-  color: #00ffff;
-  text-shadow: 0 0 10px #00ffff;
+  color: #e5e7eb;
 }
 
 /* Footer */
 footer {
-  background: #000;
-  color: #00ffff;
+  background: #020617;
+  color: #94a3b8;
   text-align: center;
-  padding: 10px 0;
-  border-top: 1px solid #00ffff;
-  text-shadow: 0 0 8px #00ffff;
+  padding: 12px 0;
+  border-top: 1px solid #1e293b;
 }
