@@ -1,209 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ARP Spoofing MITM Experiment</title>
-
-  <!-- Bootstrap -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARP Spoofing – MITM Attack Analysis</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Main Theme CSS (same as index & firewall) -->
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background: #0f172a;
+      color: #cbd5e1;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    h1, h2 {
+      color: #38bdf8;
+    }
+    .section {
+      background: #172133;
+      padding: 2em;
+      margin-bottom: 2em;
+      border-radius: 14px;
+      border: 1px solid #23314d;
+    }
+    pre {
+      background: #1e293b;
+      color: #a5f3fc;
+      padding: 1em;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+    .footer {
+      text-align: center;
+      opacity: 0.6;
+      margin-top: 3em;
+    }
+  </style>
 </head>
 
 <body>
+<div class="container">
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-  <div class="container">
-    <a class="navbar-brand" href="index.html">Cybersecurity Lab</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <h1 class="text-center mt-5 mb-3">
+    ARP Spoofing – Man-in-the-Middle Attack
+  </h1>
+  <p class="text-center">
+    Experimenter: Lyam<br>
+    Environment: Kali Linux<br>
+    Date: 7 November 2025
+  </p>
 
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="ubuntu-lab.html">Ubuntu Lab</a></li>
-        <li class="nav-item"><a class="nav-link" href="firewall.html">Firewall</a></li>
-        <li class="nav-item"><a class="nav-link active" href="#">ARP Spoofing</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<!-- Content -->
-<section class="container mt-5 pt-5">
-
-  <header class="text-center mb-5">
-    <h1>ARP Spoofing & Man-in-the-Middle Attack</h1>
-    <p class="text-muted">
-      Experimenter: Lyam • Date: 7 November 2025<br>
-      Educational Cybersecurity Experiment
-    </p>
-  </header>
-
-  <!-- 1 -->
   <div class="section">
     <h2>1. Pendahuluan</h2>
     <p>
-      ARP Spoofing adalah teknik serangan pada jaringan lokal (LAN) yang
-      mengeksploitasi kelemahan protokol <strong>Address Resolution Protocol (ARP)</strong>.
-      Protokol ini tidak memiliki mekanisme autentikasi, sehingga mudah dipalsukan.
-    </p>
-
-    <p>
-      Dalam serangan ini, penyerang memposisikan dirinya sebagai
-      <strong>perantara komunikasi</strong> antara korban dan gateway,
-      memungkinkan terjadinya <em>Man-in-the-Middle (MITM)</em> attack.
+      ARP Spoofing adalah teknik serangan pada jaringan lokal yang
+      memanfaatkan kelemahan Address Resolution Protocol (ARP) untuk
+      memposisikan penyerang sebagai perantara komunikasi (MITM).
     </p>
   </div>
 
-  <!-- 2 -->
   <div class="section">
     <h2>2. Tujuan Praktikum</h2>
     <ul>
-      <li>Memahami cara kerja ARP Spoofing</li>
-      <li>Mempelajari konsep MITM pada jaringan lokal</li>
-      <li>Menguji tool Ettercap dan arpspoof</li>
-      <li>Menganalisis lalu lintas jaringan korban</li>
+      <li>Memahami konsep ARP Spoofing</li>
+      <li>Mempelajari mekanisme Man-in-the-Middle</li>
+      <li>Menguji tools Ettercap dan arpspoof</li>
+      <li>Menganalisis alur lalu lintas data</li>
     </ul>
   </div>
 
-  <!-- 3 -->
   <div class="section">
-    <h2>3. Lingkungan Pengujian</h2>
-
-    <table>
-      <tr><th>Role</th><th>Platform</th></tr>
-      <tr><td>Attacker</td><td>Kali Linux</td></tr>
-      <tr><td>Victim</td><td>Host jaringan lokal</td></tr>
-      <tr><td>Gateway</td><td>Router</td></tr>
-      <tr><td>Interface</td><td>wlan0 / eth0</td></tr>
-    </table>
-
-    <p class="mt-3">
-      Seluruh pengujian dilakukan di lingkungan <strong>isolated lab</strong>
-      dan tidak digunakan pada jaringan publik.
+    <h2>3. Metodologi ARP Spoofing</h2>
+    <p>
+      Penyerang mengirim ARP reply palsu ke korban dan gateway sehingga
+      seluruh lalu lintas dialihkan melalui mesin penyerang.
     </p>
   </div>
 
-  <!-- 4 -->
   <div class="section">
-    <h2>4. Metodologi ARP Spoofing</h2>
-    <p>
-      Penyerang mengirimkan <strong>ARP reply palsu</strong> kepada korban dan gateway.
-      Akibatnya:
-    </p>
-    <ul>
-      <li>Korban mengasosiasikan MAC penyerang sebagai gateway</li>
-      <li>Gateway mengasosiasikan MAC penyerang sebagai korban</li>
-      <li>Seluruh trafik melewati attacker</li>
-    </ul>
-
-    <p>
-      Karena koneksi tetap berjalan normal, korban <strong>tidak menyadari serangan</strong>.
-    </p>
-  </div>
-
-  <!-- 5 -->
-  <div class="section">
-    <h2>5. Implementasi Menggunakan Ettercap</h2>
-
-    <h5>5.1 Instalasi</h5>
+    <h2>4. Implementasi Menggunakan Ettercap</h2>
     <pre>
 sudo apt update
-sudo apt install ettercap-text-only
-    </pre>
-
-    <h5>5.2 Menjalankan GUI</h5>
-    <pre>
+sudo apt install ettercap-graphical
 sudo ettercap -G
     </pre>
-
-    <h5>5.3 Konfigurasi</h5>
-    <ul>
-      <li>Sniff → Unified sniffing</li>
-      <li>Pilih interface</li>
-      <li>Scan host</li>
-      <li>Set Target 1 (Victim)</li>
-      <li>Set Target 2 (Gateway)</li>
-      <li>MITM → ARP poisoning</li>
-      <li>Start sniffing</li>
-    </ul>
   </div>
 
-  <!-- 6 -->
   <div class="section">
-    <h2>6. Implementasi Menggunakan arpspoof</h2>
-
+    <h2>5. Implementasi Menggunakan arpspoof</h2>
     <pre>
 sudo apt install dsniff
-    </pre>
 
-    <pre>
 sudo arpspoof -i wlan0 -t 192.168.1.100 192.168.1.1
 sudo arpspoof -i wlan0 -t 192.168.1.1 192.168.1.100
     </pre>
-
-    <p>
-      Dua perintah ini memastikan attacker berada di tengah komunikasi
-      korban dan gateway.
-    </p>
   </div>
 
-  <!-- 7 -->
   <div class="section">
-    <h2>7. Hasil Pengujian</h2>
+    <h2>6. Hasil Pengujian</h2>
     <ul>
-      <li>Lalu lintas berhasil dialihkan</li>
-      <li>Koneksi korban tetap normal</li>
-      <li>Data dapat dianalisis via packet sniffer</li>
+      <li>Lalu lintas korban berhasil dialihkan</li>
+      <li>Koneksi korban tetap berjalan normal</li>
+      <li>Data dapat dianalisis menggunakan packet sniffer</li>
     </ul>
   </div>
 
-  <!-- 8 -->
   <div class="section">
-    <h2>8. Analisis Keamanan</h2>
+    <h2>7. Analisis Keamanan</h2>
     <p>
-      ARP Spoofing membuktikan bahwa jaringan lokal tanpa proteksi
-      sangat rentan terhadap MITM.
-      Ini adalah <strong>design flaw</strong>, bukan bug implementasi.
+      ARP tidak memiliki mekanisme autentikasi, menjadikannya sangat
+      rentan terhadap serangan MITM pada jaringan lokal.
     </p>
   </div>
 
-  <!-- 9 -->
   <div class="section">
-    <h2>9. Mitigasi</h2>
+    <h2>8. Mitigasi</h2>
     <ul>
       <li>Static ARP</li>
       <li>Dynamic ARP Inspection</li>
-      <li>DHCP Snooping</li>
       <li>VPN</li>
       <li>IDS/IPS</li>
     </ul>
   </div>
 
-  <!-- 10 -->
   <div class="section">
-    <h2>10. Kesimpulan</h2>
+    <h2>9. Kesimpulan</h2>
     <p>
-      Praktikum ini menunjukkan bahwa ARP Spoofing adalah serangan
-      yang mudah dilakukan namun berdampak besar.
+      ARP Spoofing dapat dilakukan dengan mudah pada jaringan lokal
+      tanpa proteksi. Pemahaman teknik ini penting untuk defensive security.
     </p>
-    <p>
-      Pemahaman teknik ini penting agar sistem dapat
-      <strong>dideteksi dan dicegah</strong>, bukan disalahgunakan.
-    </p>
+    <p><b>Status:</b> Completed ✅</p>
   </div>
 
-</section>
+  <div class="footer">
+    ARP Spoofing Experiment — Cybersecurity Lab
+  </div>
 
-<footer>
-  <p>Cybersecurity Lab Documentation • Educational Use Only</p>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</div>
 </body>
 </html>
