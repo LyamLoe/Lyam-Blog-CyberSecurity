@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARP Spoofing & MITM – Educational Lab</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(180deg, #0f172a, #020617);
+      color: #cbd5e1;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    h1, h2, h3 {
+      color: #e5e7eb;
+    }
+    .section {
+      background: #0f172a;
+      padding: 2em;
+      margin-bottom: 2em;
+      border-radius: 14px;
+      border: 1px solid #1e293b;
+    }
+    pre {
+      background: #020617;
+      color: #94a3b8;
+      padding: 1em;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+    .warning {
+      background: #1e293b;
+      border-left: 4px solid #f59e0b;
+      padding: 1em;
+      margin: 1em 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1em;
+    }
+    th, td {
+      border: 1px solid #1e293b;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #020617;
+      color: #e5e7eb;
+    }
+    .footer {
+      text-align: center;
+      opacity: 0.6;
+      margin-top: 3em;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <h1 class="text-center mt-5 mb-3">
+    Implementasi ARP Spoofing untuk MITM Attack
+  </h1>
+  <p class="text-center mb-5">
+    <strong>Educational & Defensive Security Lab</strong><br>
+    Penulis: Toki • Tanggal: 7 November 2025
+  </p>
+
+  <!-- 1 -->
+  <div class="section">
+    <h2>1. Pendahuluan</h2>
+    <p>
+      ARP Spoofing adalah teknik serangan pada jaringan lokal yang
+      mengeksploitasi kelemahan protokol <strong>Address Resolution Protocol (ARP)</strong>.
+      Serangan ini memungkinkan penyerang memposisikan diri sebagai perantara
+      antara korban dan gateway.
+    </p>
+    <p>
+      Dokumentasi ini ditujukan untuk <strong>edukasi keamanan jaringan</strong>
+      dan pemahaman risiko, bukan untuk penyalahgunaan.
+    </p>
+  </div>
+
+  <!-- 2 -->
+  <div class="section">
+    <h2>2. Tujuan Praktikum</h2>
+    <ul>
+      <li>Memahami cara kerja ARP Spoofing</li>
+      <li>Mempelajari konsep Man-in-the-Middle (MITM)</li>
+      <li>Menganalisis lalu lintas jaringan korban</li>
+      <li>Meningkatkan kesadaran mitigasi keamanan</li>
+    </ul>
+  </div>
+
+  <!-- 3 -->
+  <div class="section">
+    <h2>3. Lingkungan Pengujian</h2>
+    <table>
+      <tr><th>Peran</th><th>Deskripsi</th></tr>
+      <tr><td>Attacker</td><td>Kali Linux</td></tr>
+      <tr><td>Victim</td><td>Host jaringan lokal</td></tr>
+      <tr><td>Gateway</td><td>Router jaringan</td></tr>
+      <tr><td>Interface</td><td>wlan0 / eth0</td></tr>
+    </table>
+  </div>
+
+  <!-- 4 -->
+  <div class="section">
+    <h2>4. Metodologi ARP Spoofing</h2>
+    <p>
+      Penyerang mengirimkan ARP reply palsu ke korban dan gateway,
+      sehingga kedua pihak mempercayai MAC address penyerang
+      sebagai lawan komunikasi.
+    </p>
+    <p>
+      Akibatnya, seluruh lalu lintas data akan melewati mesin penyerang,
+      memungkinkan analisis atau manipulasi data.
+    </p>
+  </div>
+
+  <!-- 5 -->
+  <div class="section">
+    <h2>5. Implementasi Menggunakan Ettercap</h2>
+
+    <div class="warning">
+      ⚠️ Contoh di bawah bersifat <strong>konseptual</strong>.
+      Tidak disediakan perintah siap eksekusi.
+    </div>
+
+    <h3>Alur Konfigurasi (Konseptual)</h3>
+    <pre>
+1. Jalankan tool MITM
+2. Pilih interface jaringan
+3. Lakukan scanning host
+4. Tentukan korban dan gateway
+5. Aktifkan ARP poisoning
+6. Mulai proses sniffing
+    </pre>
+  </div>
+
+  <!-- 6 -->
+  <div class="section">
+    <h2>6. Implementasi Alternatif (arpspoof)</h2>
+    <p>
+      Tool arpspoof bekerja dengan prinsip yang sama:
+      mengirim ARP reply palsu ke dua arah komunikasi.
+    </p>
+    <pre>
+Pseudo Flow:
+- Spoof ARP ke korban
+- Spoof ARP ke gateway
+- Lalu lintas melewati attacker
+    </pre>
+  </div>
+
+  <!-- 7 -->
+  <div class="section">
+    <h2>7. Hasil Pengujian</h2>
+    <ul>
+      <li>Lalu lintas korban dialihkan ke attacker</li>
+      <li>Koneksi korban tetap berjalan normal</li>
+      <li>Traffic dapat dianalisis melalui packet capture</li>
+    </ul>
+  </div>
+
+  <!-- 8 -->
+  <div class="section">
+    <h2>8. Analisis Keamanan</h2>
+    <p>
+      ARP tidak memiliki mekanisme autentikasi.
+      Hal ini menjadikannya sangat rentan pada jaringan lokal
+      tanpa kontrol keamanan tambahan.
+    </p>
+  </div>
+
+  <!-- 9 -->
+  <div class="section">
+    <h2>9. Mitigasi</h2>
+    <ul>
+      <li>Static ARP entry</li>
+      <li>Dynamic ARP Inspection (DAI)</li>
+      <li>DHCP Snooping</li>
+      <li>VPN untuk enkripsi traffic</li>
+      <li>IDS / IPS</li>
+    </ul>
+  </div>
+
+  <!-- 10 -->
+  <div class="section">
+    <h2>10. Kesimpulan</h2>
+    <p>
+      Praktikum ini menunjukkan bahwa ARP Spoofing dapat dilakukan
+      dengan mudah pada jaringan lokal yang tidak dilindungi.
+    </p>
+    <p>
+      Pemahaman teknik ini penting agar administrator
+      <strong>tidak meremehkan keamanan jaringan internal</strong>.
+    </p>
+  </div>
+
+  <div class="footer">
+    Educational Network Security Lab • Defensive Perspective Only
+  </div>
+
+</div>
+</body>
+</html>
